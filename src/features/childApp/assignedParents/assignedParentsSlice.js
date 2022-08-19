@@ -12,7 +12,7 @@ const initialState = {
   fetchParents: defaultMethodState,
 };
 
-export const articlesSlice = createSlice({
+export const parentsSlice = createSlice({
   name: 'assignedParents',
   initialState,
   reducers: {},
@@ -34,4 +34,4 @@ export const articlesSlice = createSlice({
   },
 });
 
-export default articlesSlice.reducer;
+export default parentsSlice.reducer;

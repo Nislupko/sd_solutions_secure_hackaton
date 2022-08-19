@@ -5,20 +5,16 @@ import {Provider} from 'react-redux';
 import {BrowserRouter, Route, Routes } from 'react-router-dom';
 import store from './store/store'
 import { Router } from "./Router";
-import {Parents} from "./features/childApp/assignedParents/parents";
+import {ChildPage} from "./features/childApp";
+import {ParentPage} from "./features/parentApp";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
         <BrowserRouter>
             <Routes>
-                <Route path={Router.CHILD.path} element={
-                    <div>
-                        Child Page
-                        <Parents/>
-                    </div>
-                }/>
-                <Route path={Router.PARENT.path} element={<div>Parent Page</div>} />
+                <Route path={Router.CHILD.path} element={<ChildPage/>}/>
+                <Route path={Router.PARENT.path} element={<ParentPage/>} />
             </Routes>
         </BrowserRouter>
     </Provider>,
