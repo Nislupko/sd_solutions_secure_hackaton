@@ -1,46 +1,34 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {IArticle} from "./types";
-import {fetchArticles} from "./fetchArticles";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchParents } from './fetchParents';
 
-interface MethodState {
-  pending: boolean;
-  error: string | null;
-}
-
-interface ArticleState {
-  articles: IArticle[];
-  initiallyFetched: boolean;
-  fetchArticles: MethodState;
-}
-
-const defaultMethodState: MethodState = {
+const defaultMethodState = {
   pending: false,
   error: null,
-}
+};
 
-const initialState: ArticleState = {
-  articles: [],
+const initialState = {
+  parents: [],
   initiallyFetched: false,
-  fetchArticles: defaultMethodState,
+  fetchParents: defaultMethodState,
 };
 
 export const articlesSlice = createSlice({
-  name: 'articles',
+  name: 'assignedParents',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchArticles.pending, (state, _action) => {
-      state.fetchArticles.pending = true;
+    builder.addCase(fetchParents.pending, (state, _action) => {
+      state.fetchParents.pending = true;
     });
-    builder.addCase(fetchArticles.fulfilled, (state, {payload}) => {
-      state.fetchArticles.pending = false;
-      state.fetchArticles.error = null;
-      state.articles = payload;
+    builder.addCase(fetchParents.fulfilled, (state, { payload }) => {
+      state.fetchParents.pending = false;
+      state.fetchParents.error = null;
+      state.parents = payload;
       state.initiallyFetched = true;
     });
-    builder.addCase(fetchArticles.rejected, (state, {payload}) => {
-      state.fetchArticles.pending = false;
-      state.fetchArticles.error = payload as string;
+    builder.addCase(fetchParents.rejected, (state, { payload }) => {
+      state.fetchParents.pending = false;
+      state.fetchParents.error = payload;
       state.initiallyFetched = true;
     });
   },

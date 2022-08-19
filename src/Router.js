@@ -1,22 +1,16 @@
-const BASE_TITLE = 'Massage by Viktoria';
+const BASE_TITLE = 'Secure Geo Tracking';
 
 export const Router = {
   HOME: {
     path: '/',
-    title: BASE_TITLE,
-    meta: []
+    title: BASE_TITLE
   },
-  DASHBOARD: {
-    path: '/dashboard',
-    title: `Dashboard | ${BASE_TITLE}`
+  CHILD: {
+    path: '/child',
+    title: `Child app | ${BASE_TITLE}`
   },
-  ADMIN: {
-    path: '/admin',
-    title: `Dashboard | ${BASE_TITLE}`,
-    private: true,
-  },
-  SIGN_ON: {
-    path: '/sign-on',
+  PARENT: {
+    path: '/parent',
     title: `Sign on | ${BASE_TITLE}`
   }
 }

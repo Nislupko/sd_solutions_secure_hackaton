@@ -1,26 +1,19 @@
 {
   "root": true,
   "ignorePatterns": ["node_modules/", "dist/", "coverage/", "tools/"],
-  "plugins": ["@typescript-eslint", "sonarjs", "prettier", "jest"],
-  "parser": "@typescript-eslint/parser",
+  "plugins": [ "prettier" ],
   "parserOptions": {
     "ecmaVersion": 2020,
-    "sourceType": "module",
-    "tsconfigRootDir": "tsconfig.json"
+    "sourceType": "module"
   },
   "env": {
-    "jest/globals": true,
     "es2020": true,
     "node": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
     "prettier",
     "airbnb-base",
-    "plugin:sonarjs/recommended",
-    "plugin:import/typescript",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:prettier/recommended"
@@ -45,14 +38,7 @@
     "no-dupe-class-members": "off",
     "class-methods-use-this": "off",
     "default-param-last": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }],
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-shadow": "error",
-    "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-parameter-properties": "off",
+    "no-param-reassign" : "off",
     "prettier/prettier": [
       "warn",
       {
@@ -65,15 +51,5 @@
         "printWidth": 120
       }
     ]
-  },
-  "settings": {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx", ".js", ".jsx"]
-    },
-    "import/resolver": {
-      "typescript": {
-        "project": "tsconfig.json"
-      }
-    }
   }
 }

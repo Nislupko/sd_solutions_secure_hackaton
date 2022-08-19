@@ -1,29 +1,10 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {IArticle} from "./types";
-import {AppCreateAsyncThunkType} from 'project-types';
-import {gql} from 'graphql-request';
-import {apiRequest} from "../../helpers/apiRequest";
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-interface FetchArticlesProps {
-}
-
-const fetchArticlesQuery = gql`
-  query {
-    articles {
-      id
-      text
-    }
+export const fetchParents = createAsyncThunk('assignParents/fetch', async (props, { rejectWithValue }) => {
+  try {
+    const { parents } = { parents: [] || ['some-parent-key-1', 'some-parent-key-2'] }; // some request to smart contract API
+    return parents;
+  } catch (error) {
+    return rejectWithValue(JSON.stringify(error));
   }
-`;
-
-export const fetchArticles = createAsyncThunk<IArticle[], FetchArticlesProps, AppCreateAsyncThunkType>(
-  'articles/fetch',
-  async (props, {rejectWithValue}) => {
-    try {
-      const {articles} = await apiRequest({query: fetchArticlesQuery});
-      return articles;
-    } catch (error) {
-      return rejectWithValue(JSON.stringify(error));
-    }
-  },
-);
+});
