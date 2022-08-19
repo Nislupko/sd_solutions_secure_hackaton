@@ -1,4 +1,4 @@
-// import Web3 from 'web3';
+import Web3 from 'web3/dist/web3.min.js';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import Feature from 'ol/Feature';
@@ -13,11 +13,12 @@ import OSM from 'ol/source/OSM';
 import {useChildren} from "./assignedChildren/hooks/useChildren";
 
 export const ParentPage = () => {
-    // const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
     const { children, loadChildren } = useChildren();
     const [map, setMap] = useState();
     const [markers, setMarkers] = useState();
     const [kidPoint, setKidPoint] = useState();
+    const [account, setAccount] = useState();
     const mapElement = useRef();
     const mapRef = useRef();
     mapRef.current = map;
@@ -40,7 +41,13 @@ export const ParentPage = () => {
 
 
     useEffect(() => {
-        loadChildren();
+        async function load(){
+            await loadChildren()
+            web3.eth.requestAccounts()
+                .then(accounts => setAccount(accounts?.[0]))
+                .catch(err => console.log('ACC ERR:', err));
+        }
+        load();
     }, [])
 
     useEffect(() => {
