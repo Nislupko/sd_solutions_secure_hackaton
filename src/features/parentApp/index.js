@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+// import Web3 from 'web3';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import Feature from 'ol/Feature';
@@ -13,7 +13,7 @@ import OSM from 'ol/source/OSM';
 import {useChildren} from "./assignedChildren/hooks/useChildren";
 
 export const ParentPage = () => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+    // const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
     const { children, loadChildren } = useChildren();
     const [map, setMap] = useState();
     const [markers, setMarkers] = useState();
@@ -44,8 +44,8 @@ export const ParentPage = () => {
     }, [])
 
     useEffect(() => {
-        if (!map) return;
         const [child] = children;
+        if (!map || !child) return;
         const view = map.getView();
         view.setCenter(transform([child.coords.longitude, child.coords.latitude], 'EPSG:4326', 'EPSG:3857'));
         view.setZoom(15)
