@@ -1,4 +1,4 @@
-export const CONTACT_ADDRESS = '0xc59b20f56b8DE48D051Ae84a5b242f4dc2cfd3E0';
+export const CONTACT_ADDRESS = '0xf5F4Ac09623118986f4037fa5B0E0e8f6Ff3712c';
 
 export const CONTACT_ABI = [
     {
@@ -149,4 +149,4 @@ export const CONTACT_ABI = [
         "stateMutability": "view",
         "type": "function"
     }
-]
+];
