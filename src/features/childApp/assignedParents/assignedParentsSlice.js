@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchParents } from './fetchParents';
+import {setParents} from "./setParents";
 
 const defaultMethodState = {
   pending: false,
@@ -29,6 +30,11 @@ export const parentsSlice = createSlice({
     builder.addCase(fetchParents.rejected, (state, { payload }) => {
       state.fetchParents.pending = false;
       state.fetchParents.error = payload;
+      state.initiallyFetched = true;
+    });
+
+    builder.addCase(setParents.fulfilled, (state, { payload }) => {
+      state.parents = payload;
       state.initiallyFetched = true;
     });
   },
