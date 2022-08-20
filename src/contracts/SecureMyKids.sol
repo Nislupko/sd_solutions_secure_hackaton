@@ -32,6 +32,16 @@ contract SecureMyKids {
 
     // functions for a device
 
+    function isRegistered() public view returns(bool) {
+        if (devices.length == 0) {
+            return false;
+        } else if (devices[deviceToDeviceId[msg.sender]].device == msg.sender) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function addDevice() public {
         require(deviceToDeviceId[msg.sender] == 0 && deviceIdToDevice[0] != msg.sender);
         uint256 _deviceId = devices.length;
@@ -48,6 +58,11 @@ contract SecureMyKids {
         spectatorToDeviceId[_spectator] = deviceToDeviceId[msg.sender];
     }
 
+    function getSpectator() public view returns(address) {
+        require(devices[deviceToDeviceId[msg.sender]].device == msg.sender);
+        return devices[deviceToDeviceId[msg.sender]].spectator;
+    }
+
     function storeGeo(uint256 _date, string memory _longitude, string memory _latitude) public {
         deviceIdToGeos[deviceToDeviceId[msg.sender]].push(Geo({date: _date, longitude: _longitude, latitude: _latitude}));
     }
@@ -62,6 +77,11 @@ contract SecureMyKids {
     function getTrack() public view returns(Geo[] memory) {
         require(devices[spectatorToDeviceId[msg.sender]].spectator == msg.sender);
         return deviceIdToGeos[spectatorToDeviceId[msg.sender]];  
+    }
+
+    function getDevice() public view returns(address) {
+        require(devices[spectatorToDeviceId[msg.sender]].spectator == msg.sender);
+        return devices[spectatorToDeviceId[msg.sender]].device;
     }
 
 }
