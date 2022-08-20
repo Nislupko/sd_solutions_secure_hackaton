@@ -32,8 +32,8 @@ export const ChildPage = () => {
         setParents([spectators]);
 
         storeGeo.current = async () => {
-            const long = String(44.762258 + Math.random() / 100);
-            const lat = String(41.7149921 + Math.random() / 100);
+            const long = String(44.762258 + Math.random() / 300); // ~ SD Solutions office coords
+            const lat = String(41.7149921 + Math.random() / 300);
             await contract.methods.storeGeo(+new Date(), long, lat).send({from: childAccount});
             console.log('[GEO SENT]', [long, lat])
         }
@@ -67,7 +67,7 @@ export const ChildPage = () => {
                 />
             <button onClick={onSave}>Set parent</button>
             <br/>
-            <button style={{marginTop: '1rem'}} onClick={storeGeo.current}>Send geo</button>
+            <button style={{marginTop: '1rem'}} onClick={storeGeo.current}>Send sample geo</button>
       </div>
     </div>
   );
