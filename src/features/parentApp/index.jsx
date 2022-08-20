@@ -13,7 +13,7 @@ import OSM from 'ol/source/OSM';
 import {useChildren} from "./assignedChildren/hooks/useChildren";
 
 export const ParentPage = () => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+    const web3 = new Web3.providers.HttpProvider(`https://kovan.infura.io/${'API_KEY_PLEASE'}`);
     const { children, loadChildren } = useChildren();
     const [map, setMap] = useState();
     const [markers, setMarkers] = useState();
@@ -22,6 +22,10 @@ export const ParentPage = () => {
     const mapElement = useRef();
     const mapRef = useRef();
     mapRef.current = map;
+
+    useEffect(() => {
+        if(account) console.log('GOT ACCOUNT', account)
+    }, [account])
 
     useEffect(()=> {
         if (map){
