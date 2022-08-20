@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchParents } from './fetchParents';
-import {setParents} from "./setParents";
+import { setParents } from './setParents';
 
 const defaultMethodState = {
   pending: false,
