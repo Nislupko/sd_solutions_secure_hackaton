@@ -7,19 +7,21 @@ export const ChildPage = () => {
     const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
     const { isLoading, setParent } = useParents();
     const [parentId, setParentId] = useState();
+    const getParentId = () => parentId;
+
     const [account, setAccount] = useState();
     const [parents, setParents] = useState([]);
     const [contractList, setContractList] = useState();
 
     const storeGeo = useRef(null);
+    const assignParent = useRef(null);
 
     const processRegister = async (accounts) => {
         const [childAccount] = accounts;
-        console.log('ACC', childAccount);
         setAccount(childAccount);
         const contract = new web3.eth.Contract(CONTACT_ABI, CONTACT_ADDRESS);
         setContractList(contract.methods);
-        console.log('ACCOUNT', childAccount)
+        console.log('[ACCOUNT]', childAccount)
         const isRegistered = await contract.methods.isRegistered().call({from: childAccount});
         console.log("[IS REGISTERED]", isRegistered);
         if (!isRegistered) {
@@ -35,6 +37,10 @@ export const ChildPage = () => {
             await contract.methods.storeGeo(+new Date(), long, lat).send({from: childAccount});
             console.log('[GEO SENT]', [long, lat])
         }
+
+        assignParent.current = async () => {
+            await contract.methods.setSpectator(parentId).send({from: childAccount});
+        }
     }
 
     useEffect(() => {
@@ -46,22 +52,19 @@ export const ChildPage = () => {
        load();
     }, [])
 
-    const onSave = () => !!parentId && setParent(parentId);
+    const onSave = () => !!parentId && assignParent.current();
 
     return (
       <div style={{padding: '1rem'}}>
         <h2>Child page</h2>
           <div className={'content'}>
-            {!isLoading
-              ? <ul> {parents.map(parent => <li key={parent}>{parent}</li>)} </ul>
-              : <div>
+              {!isLoading && <p>Assigned parent: {parents[0]}</p>}
 
-                </div>
-            }<input
+              <input
                 style={{width: "calc(100% - 2.5rem)", marginBottom: '1rem'}}
                 onInput={event => setParentId(event.target.value)}
                 placeholder={"Add parent ids here"}
-            />
+                />
             <button onClick={onSave}>Set parent</button>
             <br/>
             <button style={{marginTop: '1rem'}} onClick={storeGeo.current}>Send geo</button>
