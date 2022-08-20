@@ -5,22 +5,17 @@ import {useParents} from './assignedParents/hooks/useParents';
 
 export const ChildPage = () => {
     const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-    const { isLoading, setParent } = useParents();
+    const { isLoading } = useParents();
     const [parentId, setParentId] = useState();
-    const getParentId = () => parentId;
-
-    const [account, setAccount] = useState();
     const [parents, setParents] = useState([]);
-    const [contractList, setContractList] = useState();
 
     const storeGeo = useRef(null);
+    const storeRealGeo = useRef(null);
     const assignParent = useRef(null);
 
     const processRegister = async (accounts) => {
         const [childAccount] = accounts;
-        setAccount(childAccount);
         const contract = new web3.eth.Contract(CONTACT_ABI, CONTACT_ADDRESS);
-        setContractList(contract.methods);
         console.log('[ACCOUNT]', childAccount)
         const isRegistered = await contract.methods.isRegistered().call({from: childAccount});
         console.log("[IS REGISTERED]", isRegistered);
@@ -32,10 +27,16 @@ export const ChildPage = () => {
         setParents([spectators]);
 
         storeGeo.current = async () => {
-            const long = String(44.762258 + Math.random() / 300); // ~ SD Solutions office coords
-            const lat = String(41.7149921 + Math.random() / 300);
+            const long = String(44.7644458 + Math.random() / 300); // ~ SD Solutions office coords
+            const lat = String(41.708825  + Math.random() / 300);
             await contract.methods.storeGeo(+new Date(), long, lat).send({from: childAccount});
             console.log('[GEO SENT]', [long, lat])
+        }
+        storeRealGeo.current = async () => {
+            const long = String(44.7644458); // ~ SD Solutions office coords via navigator.geolocation
+            const lat = String(41.708825);
+            await contract.methods.storeGeo(+new Date(), long, lat).send({from: childAccount});
+            console.log('[REAL GEO SENT]', [long, lat])
         }
 
         assignParent.current = async () => {
@@ -68,6 +69,8 @@ export const ChildPage = () => {
             <button onClick={onSave}>Set parent</button>
             <br/>
             <button style={{marginTop: '1rem'}} onClick={storeGeo.current}>Send sample geo</button>
+            <br/>
+            <button style={{marginTop: '1rem'}} onClick={storeRealGeo.current}>Send real geo</button>
       </div>
     </div>
   );
